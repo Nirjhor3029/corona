@@ -21,6 +21,8 @@ class CreateAreaSuppliersTable extends Migration
             $table->unsignedBigInteger('supplier_id');
             $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');
 
+            $table->softDeletes();
+
             $table->timestamps();
         });
     }

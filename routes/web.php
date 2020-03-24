@@ -29,6 +29,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('export', 'MyController@export')->name('export');
     Route::get('importExportView', 'MyController@importExportView');
     Route::post('import', 'MyController@import')->name('import');
+    
+    Route::resource('areas', 'AreaController');
 });
 
 // Admin
@@ -38,3 +40,20 @@ Route::middleware(['admin'])->group(function () {
     });
 });
 
+
+
+Auth::routes(['verify' => true]);
+
+Route::get('/home', 'HomeController@index')->middleware('verified');
+
+
+
+Route::resource('tests', 'TestController');
+
+Route::resource('users', 'UserController');
+
+Route::resource('suppliers', 'SupplierController');
+
+Route::resource('serviceTypes', 'Service_typeController');
+
+Route::resource('orderstatuses', 'OrderstatusController');

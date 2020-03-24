@@ -31,6 +31,8 @@ class CreateOrdersTable extends Migration
             $table->double('amount')->default(0);
 
             $table->dateTime('date_time')->nullable();
+            $table->softDeletes();
+
             $table->timestamps();
         });
     }

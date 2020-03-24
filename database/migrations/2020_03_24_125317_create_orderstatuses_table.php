@@ -16,6 +16,8 @@ class CreateOrderstatusesTable extends Migration
         Schema::create('orderstatuses', function (Blueprint $table) {
             $table->id();
             $table->string('status_name');
+            $table->softDeletes();
+
             $table->timestamps();
         });
     }
