@@ -25,12 +25,15 @@ Auth::routes();
 
 
 // User
-Route::middleware(['auth'])->group(function () {
-    Route::get('export', 'MyController@export')->name('export');
-    Route::get('importExportView', 'MyController@importExportView');
-    Route::post('import', 'MyController@import')->name('import');
+Route::prefix('supplier')->name('supplier.')->middleware(['auth'])->group(function () {
     
-    Route::resource('areas', 'AreaController');
+    Route::get('dashboard', 'supplierDashboardController@showDashboard')->name('dashboard');
+    Route::post('supplier-update-own/{id}', 'supplierDashboardController@updateown')->name('update_own');
+
+    Route::get('orders', 'supplierDashboardController@supplierOrders')->name('orders');
+
+    Route::post('update_status/{id}', 'supplierDashboardController@update_status')->name('update_status');
+    
 });
 
 // Admin
@@ -40,7 +43,18 @@ Route::middleware(['admin'])->group(function () {
     });
     
     Route::resource('data', 'DataController');
+    Route::resource('tests', 'TestController');
+    Route::resource('users', 'UserController');
+    Route::resource('suppliers', 'SupplierController');
+    Route::resource('serviceTypes', 'Service_typeController');
+    Route::resource('orderstatuses', 'OrderstatusController');
+    Route::resource('orders', 'OrderController');
+    Route::resource('areas', 'AreaController');
 
+
+    Route::get('export', 'MyController@export')->name('export');
+    Route::get('importExportView', 'MyController@importExportView');
+    Route::post('import', 'MyController@import')->name('import');
 
     Route::get('import', 'MyController@importExportView')->name("import_csv");
 
@@ -56,15 +70,5 @@ Route::get('/home', 'HomeController@index')->middleware('verified');
 
 
 
-Route::resource('tests', 'TestController');
 
-Route::resource('users', 'UserController');
-
-Route::resource('suppliers', 'SupplierController');
-
-Route::resource('serviceTypes', 'Service_typeController');
-
-Route::resource('orderstatuses', 'OrderstatusController');
-
-Route::resource('orders', 'OrderController');
 

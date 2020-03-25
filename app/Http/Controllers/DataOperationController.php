@@ -10,6 +10,8 @@ use App\Orderstatus;
 use App\Supplier;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Laracasts\Flash\Flash;
 
 class DataOperationController extends Controller
 {
@@ -66,5 +68,8 @@ class DataOperationController extends Controller
             $i++;
         }
 //        return $service_types;
+        Flash::success('Order Distributed successfully.');
+
+        return Redirect::route('orders.index');
     }
 }

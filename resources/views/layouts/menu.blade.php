@@ -1,3 +1,5 @@
+
+
 @if(\Illuminate\Support\Facades\Auth::user()->role == "admin")
 <li class="{{ Request::is('import*') ? 'active' : '' }}">
     <a href="{{ route('import_csv') }}"><i class="fa fa-edit"></i><span>Import Data</span></a>
@@ -5,7 +7,7 @@
 <li class="{{ Request::is('data*') ? 'active' : '' }}">
     <a href="{{ route('data.index') }}"><i class="fa fa-edit"></i><span>Data</span></a>
 </li>
-@endif
+
 <li class="{{ Request::is('areas*') ? 'active' : '' }}">
     <a href="{{ route('areas.index') }}"><i class="fa fa-edit"></i><span>Areas</span></a>
 </li>
@@ -33,6 +35,17 @@
 <li class="{{ Request::is('orders*') ? 'active' : '' }}">
     <a href="{{ route('orders.index') }}"><i class="fa fa-edit"></i><span>Orders</span></a>
 </li>
+
+
+    
+@else
+<li class="{{ Request::is('dashboard*') ? 'active' : '' }}">
+    <a href="{{ route('supplier.dashboard') }}"><i class="fa fa-edit"></i><span>Dashboard</span></a>
+</li>
+<li class="{{ Request::is('dashboard*') ? 'active' : '' }}">
+    <a href="{{ route('supplier.orders') }}"><i class="fa fa-edit"></i><span>Orders</span></a>
+</li>
+@endif
 
 
 

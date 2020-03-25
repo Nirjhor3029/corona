@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Order;
+use App\Models\Orderstatus;
+use App\Models\Service_type;
+use App\Models\Supplier;
 use App\Repositories\OrderRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
@@ -33,7 +36,7 @@ class OrderController extends AppBaseController
         $orders = Order::with('orderstatus')
             ->with('serviceType','serviceType','supllier')
             ->get();
-//        return $orders[0]->serviceType;
+//        return $orders;
 
         return view('orders.index')
             ->with('orders', $orders);
@@ -96,15 +99,22 @@ class OrderController extends AppBaseController
      */
     public function edit($id)
     {
-        $order = $this->orderRepository->find($id);
+        $service_types = Service_type::all();
+        $suppliers = Supplier::all();
+        $order_statuses = Orderstatus::all();
+
+        $order = Order::where('id',$id)
+            ->with('serviceType','serviceType','supllier')
+            ->first();
+
+//        return $order->supllier;
 
         if (empty($order)) {
             Flash::error('Order not found');
-
             return redirect(route('orders.index'));
         }
 
-        return view('orders.edit')->with('order', $order);
+        return view('orders.edit',compact('service_types','suppliers','order_statuses'))->with('order', $order);
     }
 
     /**

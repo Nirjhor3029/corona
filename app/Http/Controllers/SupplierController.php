@@ -86,16 +86,12 @@ class SupplierController extends AppBaseController
         return view('suppliers.show')->with('supplier', $supplier);
     }
 
-    /**
-     * Show the form for editing the specified Supplier.
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
+
     public function edit($id)
     {
         $supplier = $this->supplierRepository->find($id);
+        $users = User::all();
+        $service_types = Service_type::all();
 
         if (empty($supplier)) {
             Flash::error('Supplier not found');
@@ -103,17 +99,10 @@ class SupplierController extends AppBaseController
             return redirect(route('suppliers.index'));
         }
 
-        return view('suppliers.edit')->with('supplier', $supplier);
+        return view('suppliers.edit',compact('service_types','users'))->with('supplier', $supplier);
     }
 
-    /**
-     * Update the specified Supplier in storage.
-     *
-     * @param  int              $id
-     * @param UpdateSupplierRequest $request
-     *
-     * @return Response
-     */
+
     public function update($id, UpdateSupplierRequest $request)
     {
         $supplier = $this->supplierRepository->find($id);
@@ -131,13 +120,7 @@ class SupplierController extends AppBaseController
         return redirect(route('suppliers.index'));
     }
 
-    /**
-     * Remove the specified Supplier from storage.
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
+
     public function destroy($id)
     {
         $supplier = $this->supplierRepository->find($id);
