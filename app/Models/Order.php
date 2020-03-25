@@ -8,16 +8,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class Order
  * @package App\Models
- * @version March 24, 2020, 11:03 pm UTC
+ * @version March 25, 2020, 3:22 am UTC
  *
- * @property \App\Models\Area area
  * @property \App\Models\Orderstatus orderstatus
  * @property \App\Models\ServiceType serviceType
  * @property \App\Models\Supplier supllier
  * @property string name
  * @property string mobile
  * @property integer service_type_id
- * @property integer area_id
  * @property integer supllier_id
  * @property integer orderstatus_id
  * @property string remarks
@@ -42,7 +40,6 @@ class Order extends Model
         'name',
         'mobile',
         'service_type_id',
-        'area_id',
         'supllier_id',
         'orderstatus_id',
         'remarks',
@@ -60,7 +57,6 @@ class Order extends Model
         'name' => 'string',
         'mobile' => 'string',
         'service_type_id' => 'integer',
-        'area_id' => 'integer',
         'supllier_id' => 'integer',
         'orderstatus_id' => 'integer',
         'remarks' => 'string',
@@ -76,19 +72,10 @@ class Order extends Model
     public static $rules = [
         'mobile' => 'required',
         'service_type_id' => 'required',
-        'area_id' => 'required',
         'supllier_id' => 'required',
         'orderstatus_id' => 'required',
         'amount' => 'required'
     ];
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     **/
-    public function area()
-    {
-        return $this->belongsTo(\App\Models\Area::class, 'area_id');
-    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -103,7 +90,7 @@ class Order extends Model
      **/
     public function serviceType()
     {
-        return $this->belongsTo(\App\Models\ServiceType::class, 'service_type_id');
+        return $this->belongsTo(\App\Models\Service_type::class, 'service_type_id');
     }
 
     /**

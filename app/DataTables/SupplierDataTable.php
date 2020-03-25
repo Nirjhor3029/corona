@@ -68,7 +68,8 @@ class SupplierDataTable extends DataTable
             'name',
             'priority',
             'capacity',
-            'user_id'
+            'user_id',
+            'service_type_id'
         ];
     }
 

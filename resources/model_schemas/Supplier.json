@@ -60,6 +60,18 @@
         "inView": true
     },
     {
+        "name": "service_type_id",
+        "dbType": "bigInteger,false,true",
+        "htmlType": null,
+        "validations": "required",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
         "name": "deleted_at",
         "dbType": "datetime:nullable",
         "htmlType": "date",
@@ -94,6 +106,10 @@
         "inForm": false,
         "inIndex": false,
         "inView": false
+    },
+    {
+        "type": "relation",
+        "relation": "mt1,ServiceType,service_type_id"
     },
     {
         "type": "relation",

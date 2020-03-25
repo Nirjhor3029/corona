@@ -16,12 +16,6 @@
     <p>{{ $order->service_type_id }}</p>
 </div>
 
-<!-- Area Id Field -->
-<div class="form-group">
-    {!! Form::label('area_id', 'Area Id:') !!}
-    <p>{{ $order->area_id }}</p>
-</div>
-
 <!-- Supllier Id Field -->
 <div class="form-group">
     {!! Form::label('supllier_id', 'Supllier Id:') !!}

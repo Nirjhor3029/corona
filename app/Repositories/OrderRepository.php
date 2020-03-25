@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class OrderRepository
  * @package App\Repositories
- * @version March 24, 2020, 11:03 pm UTC
+ * @version March 25, 2020, 3:22 am UTC
 */
 
 class OrderRepository extends BaseRepository
@@ -20,7 +20,6 @@ class OrderRepository extends BaseRepository
         'name',
         'mobile',
         'service_type_id',
-        'area_id',
         'supllier_id',
         'orderstatus_id',
         'remarks',

@@ -35,7 +35,8 @@
 <!-- Role Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('role', 'Role:') !!}
-    {!! Form::text('role', null, ['class' => 'form-control']) !!}
+    {{-- {!! Form::text('role', null, ['class' => 'form-control']) !!} --}}
+    {!!Form::select('role', ['0' => 'supplier', 'admin' => 'admin'], '0',['class' => 'form-control'])!!}
 </div>
 
 <!-- Remember Token Field -->

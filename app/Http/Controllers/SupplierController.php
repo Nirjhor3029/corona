@@ -7,6 +7,8 @@ use App\Http\Requests;
 use App\Http\Requests\CreateSupplierRequest;
 use App\Http\Requests\UpdateSupplierRequest;
 use App\Repositories\SupplierRepository;
+use App\Service_type;
+use App\User;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
@@ -39,7 +41,11 @@ class SupplierController extends AppBaseController
      */
     public function create()
     {
-        return view('suppliers.create');
+        $users = User::where('role','0')->get();
+        $service_types = Service_type::all();
+//        return $service_types;
+
+        return view('suppliers.create',compact('users','service_types'));
     }
 
     /**

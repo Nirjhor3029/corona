@@ -22,3 +22,9 @@
     <p>{{ $supplier->user_id }}</p>
 </div>
 
+<!-- Service Type Id Field -->
+<div class="form-group">
+    {!! Form::label('service_type_id', 'Service Type Id:') !!}
+    <p>{{ $supplier->service_type_id }}</p>
+</div>
+

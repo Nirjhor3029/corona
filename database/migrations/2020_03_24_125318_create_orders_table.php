@@ -20,8 +20,8 @@ class CreateOrdersTable extends Migration
 
             $table->unsignedBigInteger('service_type_id');
             $table->foreign('service_type_id')->references('id')->on('service_types');
-            $table->unsignedBigInteger('area_id');
-            $table->foreign('area_id')->references('id')->on('areas');
+            // $table->unsignedBigInteger('area_id');
+            // $table->foreign('area_id')->references('id')->on('areas');
             $table->unsignedBigInteger('supllier_id');
             $table->foreign('supllier_id')->references('id')->on('suppliers');
             $table->unsignedBigInteger('orderstatus_id');

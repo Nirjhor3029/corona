@@ -68,7 +68,6 @@ class OrderDataTable extends DataTable
             'name',
             'mobile',
             'service_type_id',
-            'area_id',
             'supllier_id',
             'orderstatus_id',
             'remarks',

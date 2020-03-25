@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\OrderDataTable;
-use App\Http\Requests;
 use App\Http\Requests\CreateOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
+use App\Models\Order;
 use App\Repositories\OrderRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
+use Flash;
 use Response;
 
 class OrderController extends AppBaseController
@@ -24,12 +24,19 @@ class OrderController extends AppBaseController
     /**
      * Display a listing of the Order.
      *
-     * @param OrderDataTable $orderDataTable
+     * @param Request $request
+     *
      * @return Response
      */
-    public function index(OrderDataTable $orderDataTable)
+    public function index(Request $request)
     {
-        return $orderDataTable->render('orders.index');
+        $orders = Order::with('orderstatus')
+            ->with('serviceType','serviceType','supllier')
+            ->get();
+//        return $orders[0]->serviceType;
+
+        return view('orders.index')
+            ->with('orders', $orders);
     }
 
     /**
@@ -63,7 +70,7 @@ class OrderController extends AppBaseController
     /**
      * Display the specified Order.
      *
-     * @param  int $id
+     * @param int $id
      *
      * @return Response
      */
@@ -83,7 +90,7 @@ class OrderController extends AppBaseController
     /**
      * Show the form for editing the specified Order.
      *
-     * @param  int $id
+     * @param int $id
      *
      * @return Response
      */
@@ -103,7 +110,7 @@ class OrderController extends AppBaseController
     /**
      * Update the specified Order in storage.
      *
-     * @param  int              $id
+     * @param int $id
      * @param UpdateOrderRequest $request
      *
      * @return Response
@@ -128,7 +135,9 @@ class OrderController extends AppBaseController
     /**
      * Remove the specified Order from storage.
      *
-     * @param  int $id
+     * @param int $id
+     *
+     * @throws \Exception
      *
      * @return Response
      */

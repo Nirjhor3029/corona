@@ -11,7 +11,6 @@ $factory->define(Order::class, function (Faker $faker) {
         'name' => $faker->word,
         'mobile' => $faker->word,
         'service_type_id' => $faker->word,
-        'area_id' => $faker->word,
         'supllier_id' => $faker->word,
         'orderstatus_id' => $faker->word,
         'remarks' => $faker->word,

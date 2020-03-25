@@ -65,7 +65,7 @@ class User extends Model
         'name' => 'required',
         'email' => 'required',
         'password' => 'required',
-        'role' => 'required'
+        // 'role' => 'required'
     ];
 
     /**

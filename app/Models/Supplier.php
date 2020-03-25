@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class Supplier
  * @package App\Models
- * @version March 24, 2020, 3:11 pm UTC
+ * @version March 25, 2020, 1:35 am UTC
  *
+ * @property \App\Models\ServiceType serviceType
  * @property \App\Models\User user
  * @property \Illuminate\Database\Eloquent\Collection areaSuppliers
  * @property \Illuminate\Database\Eloquent\Collection orders
@@ -17,6 +18,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property integer priority
  * @property integer capacity
  * @property integer user_id
+ * @property integer service_type_id
  */
 class Supplier extends Model
 {
@@ -36,7 +38,8 @@ class Supplier extends Model
         'name',
         'priority',
         'capacity',
-        'user_id'
+        'user_id',
+        'service_type_id'
     ];
 
     /**
@@ -49,7 +52,8 @@ class Supplier extends Model
         'name' => 'string',
         'priority' => 'integer',
         'capacity' => 'integer',
-        'user_id' => 'integer'
+        'user_id' => 'integer',
+        'service_type_id' => 'integer'
     ];
 
     /**
@@ -60,8 +64,17 @@ class Supplier extends Model
     public static $rules = [
         'priority' => 'required',
         'capacity' => 'required',
-        'user_id' => 'required'
+        'user_id' => 'required',
+        'service_type_id' => 'required'
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function serviceType()
+    {
+        return $this->belongsTo(\App\Models\ServiceType::class, 'service_type_id');
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
