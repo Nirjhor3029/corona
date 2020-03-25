@@ -38,6 +38,14 @@ Route::middleware(['admin'])->group(function () {
     Route::get('test', function(){
         return "test Admin middleware";
     });
+    
+    Route::resource('data', 'DataController');
+
+
+    Route::get('import', 'MyController@importExportView')->name("import_csv");
+
+    Route::get('data_distribution', 'DataOperationController@dataDistribution')->name("data_distribution");
+
 });
 
 
@@ -57,3 +65,6 @@ Route::resource('suppliers', 'SupplierController');
 Route::resource('serviceTypes', 'Service_typeController');
 
 Route::resource('orderstatuses', 'OrderstatusController');
+
+Route::resource('orders', 'OrderController');
+

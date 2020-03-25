@@ -20,6 +20,8 @@ class CreateDataTable extends Migration
             $table->string('service_type');
             $table->string('living_area')->nullable();
             $table->dateTime('date_time')->nullable();
+            
+            $table->softDeletes();
 
             $table->timestamps();
         });
