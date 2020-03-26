@@ -34,9 +34,10 @@ class OrderController extends AppBaseController
     public function index(Request $request)
     {
         $orders = Order::with('orderstatus')
-            ->with('serviceType','serviceType','supllier')
+            ->with('service_type','service_type','supplier')
+            ->orderBy('updated_at', 'DESC')
             ->get();
-//        return $orders;
+//        return $orders[0]->supplier->name;
 
         return view('orders.index')
             ->with('orders', $orders);
@@ -100,14 +101,14 @@ class OrderController extends AppBaseController
     public function edit($id)
     {
         $service_types = Service_type::all();
-        $suppliers = Supplier::all();
+        $suppliers = Supplier::whereNull('deleted_at')->get();
         $order_statuses = Orderstatus::all();
 
         $order = Order::where('id',$id)
-            ->with('serviceType','serviceType','supllier')
+            ->with('service_type','orderstatus','supplier')
             ->first();
 
-//        return $order->supllier;
+//        return $order;
 
         if (empty($order)) {
             Flash::error('Order not found');
@@ -133,6 +134,19 @@ class OrderController extends AppBaseController
             Flash::error('Order not found');
             return redirect(route('orders.index'));
         }
+
+        //return $request->supllier_id;
+//        return $order->supllier_id;
+
+        if($order->supllier_id != $request->supllier_id ){
+            $order_satus = Orderstatus::where('status_name','pending')->first();
+//            $request->orderstatus_id = $order_satus->id;
+            $request->merge(['orderstatus_id' =>$order_satus->id]);
+
+//            return $request;
+//            return $order_satus->id;
+        }
+//        return $order->supllier_id;
 
         $order = $this->orderRepository->update($request->all(), $id);
         Flash::success('Order updated successfully.');

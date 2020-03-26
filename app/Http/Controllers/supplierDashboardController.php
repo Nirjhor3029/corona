@@ -28,11 +28,19 @@ class supplierDashboardController extends Controller
 
     }
 
-    public function showDashboard()
+    public function showDashboard() //settings
     {
         $userId = Auth::user()->id;
+
         $supplier = Supplier::where('user_id',$userId)->first();
-//         return $supplier;
+        if (empty($supplier)) {
+            Flash::error('You Are Not listes as a Supplier! ');
+
+            return Redirect::to('/home');
+        }
+//        return $supplier;
+
+        
 
 //        $users = User::all();
         $service_types = Service_type::all();
@@ -43,6 +51,12 @@ class supplierDashboardController extends Controller
         return view('supplier_views.dashboard',compact('supplier','service_types','orders'));
     }
 
+    public function showDashboard2()
+    {
+//        return "ok";
+        return Redirect::to('/home');
+    }
+
     public function updateown($id, Request $request)
     {
 
@@ -51,7 +65,6 @@ class supplierDashboardController extends Controller
 
         if (empty($supplier)) {
             Flash::error('Supplier not found');
-
 //            return redirect(route('suppliers.index'));
             return Redirect::back();
         }
@@ -73,10 +86,18 @@ class supplierDashboardController extends Controller
         {
                 $userId = Auth::user()->id;
                 $supplier = Supplier::where('user_id',$userId)->first();
+                if (empty($supplier)) {
+                    Flash::error('Supplier not found');
+    //            return redirect(route('suppliers.index'));
+                    return Redirect::back();
+                }
                 $service_types = Service_type::all();
-                $orders = Order::where('supllier_id',$supplier->id)->get();
+                $orders = Order::where('supllier_id',$supplier->id)
+                        ->with('orderstatus','service_type','supplier')
+                        ->orderBy('updated_at', 'DESC')
+                        ->get();
 
-        //        return $orders;
+            //    return $orders[0]->service_type->service_name;
 
                 $order_status = Orderstatus::all();
 
@@ -99,6 +120,9 @@ class supplierDashboardController extends Controller
         $order->orderstatus_id = $request->orderstatus_id;
         if(isset($request->order_amount)){
             $order->amount = $request->order_amount;
+        }
+        if(isset($request->order_remarks)){
+            $order->remarks = $request->order_remarks;
         }
         $order->save();
 

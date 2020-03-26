@@ -1,4 +1,5 @@
 <!-- Name Field -->
+
 <div class="form-group col-sm-6">
     {!! Form::label('name', 'Name:') !!}
     {!! Form::text('name', null, ['class' => 'form-control']) !!}
@@ -16,7 +17,7 @@
     <select name="service_type_id" id="" class="form-control">
         <option value="{{null}}" hidden>Select Service type</option>
         @foreach ($service_types as $service_type)
-            <option  value="{{$service_type->id}}" {{( $order->serviceType->id == $service_type->id ) ? "selected" : "" }} >{{$service_type->service_name}}</option>
+            <option  value="{{$service_type->id}}" {{( $order->service_type->id == $service_type->id ) ? "selected" : "" }} >{{$service_type->service_name}}</option>
         @endforeach
     </select>
 </div>
@@ -28,9 +29,9 @@
     {{-- {!! Form::number('supllier_id', null, ['class' => 'form-control']) !!} --}}
 
     <select name="supllier_id" id="" class="form-control">
-        <option value="{{null}}" hidden>Select Service type</option>
+        <option value="{{null}}" hidden>Select Supplier</option>
         @foreach ($suppliers as $supplier)
-            <option  value="{{$supplier->id}}" {{( $order->supllier->id == $supplier->id ) ? "selected" : "" }} >{{$supplier->name}}</option>
+            <option  value="{{$supplier->id}}" {{( $order->supplier->id == $supplier->id ) ? "selected" : "" }} >{{$supplier->name}}</option>
         @endforeach
     </select>
 </div>
@@ -38,7 +39,14 @@
 <!-- Orderstatus Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('orderstatus_id', 'Orderstatus Id:') !!}
-    {!! Form::number('orderstatus_id', null, ['class' => 'form-control']) !!}
+    {{-- {!! Form::number('orderstatus_id', null, ['class' => 'form-control']) !!} --}}
+    
+    <select name="orderstatus_id" id="" class="form-control">
+        <option value="{{null}}" hidden>Select Status</option>
+        @foreach ($order_statuses as $orderstatus)
+            <option  value="{{$orderstatus->id}}" {{( $order->orderstatus->id == $orderstatus->id ) ? "selected" : "" }} >{{$orderstatus->status_name}}</option>
+        @endforeach
+    </select>
 </div>
 
 <!-- Remarks Field -->

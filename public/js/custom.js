@@ -10,4 +10,17 @@ $(document).ready( function () {
             'copy', 'csv', 'excel', 'pdf', 'print'
         ]
     } );
+
+    $('#supplier_view_table').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    } );
+    $('#suppliers_table').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    } );
 } );

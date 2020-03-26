@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\SupplierDataTable;
-use App\Http\Requests;
 use App\Http\Requests\CreateSupplierRequest;
 use App\Http\Requests\UpdateSupplierRequest;
+use App\Models\Service_type;
+use App\Models\Supplier;
+use App\Models\User;
 use App\Repositories\SupplierRepository;
-use App\Service_type;
-use App\User;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
+use Flash;
 use Response;
 
 class SupplierController extends AppBaseController
@@ -26,12 +26,19 @@ class SupplierController extends AppBaseController
     /**
      * Display a listing of the Supplier.
      *
-     * @param SupplierDataTable $supplierDataTable
+     * @param Request $request
+     *
      * @return Response
      */
-    public function index(SupplierDataTable $supplierDataTable)
+    public function index(Request $request)
     {
-        return $supplierDataTable->render('suppliers.index');
+        $suppliers = Supplier::with('service_type','user')->get();
+//        return $suppliers[0];
+        //$users = User::all();
+        //$service_types = Service_type::all();
+
+        return view('suppliers.index',compact('users','service_types'))
+            ->with('suppliers', $suppliers);
     }
 
     /**
@@ -58,51 +65,61 @@ class SupplierController extends AppBaseController
     public function store(CreateSupplierRequest $request)
     {
         $input = $request->all();
-
         $supplier = $this->supplierRepository->create($input);
-
         Flash::success('Supplier saved successfully.');
-
         return redirect(route('suppliers.index'));
     }
 
     /**
      * Display the specified Supplier.
      *
-     * @param  int $id
+     * @param int $id
      *
      * @return Response
      */
     public function show($id)
     {
         $supplier = $this->supplierRepository->find($id);
-
         if (empty($supplier)) {
             Flash::error('Supplier not found');
-
             return redirect(route('suppliers.index'));
         }
-
         return view('suppliers.show')->with('supplier', $supplier);
     }
 
-
+    /**
+     * Show the form for editing the specified Supplier.
+     *
+     * @param int $id
+     *
+     * @return Response
+     */
     public function edit($id)
     {
-        $supplier = $this->supplierRepository->find($id);
-        $users = User::all();
+        $supplier = Supplier::where('id',$id)
+            ->with('service_type','user')
+            ->first();
+
+//        return $supplier;
+
+        $users = User::whereNotIn('role', ['admin'])->get();
         $service_types = Service_type::all();
 
         if (empty($supplier)) {
             Flash::error('Supplier not found');
-
             return redirect(route('suppliers.index'));
         }
-
         return view('suppliers.edit',compact('service_types','users'))->with('supplier', $supplier);
     }
 
-
+    /**
+     * Update the specified Supplier in storage.
+     *
+     * @param int $id
+     * @param UpdateSupplierRequest $request
+     *
+     * @return Response
+     */
     public function update($id, UpdateSupplierRequest $request)
     {
         $supplier = $this->supplierRepository->find($id);
@@ -120,7 +137,15 @@ class SupplierController extends AppBaseController
         return redirect(route('suppliers.index'));
     }
 
-
+    /**
+     * Remove the specified Supplier from storage.
+     *
+     * @param int $id
+     *
+     * @throws \Exception
+     *
+     * @return Response
+     */
     public function destroy($id)
     {
         $supplier = $this->supplierRepository->find($id);

@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
+use Illuminate\Support\Facades\Hash;
 use Response;
 
 class UserController extends AppBaseController
@@ -49,7 +51,14 @@ class UserController extends AppBaseController
     public function store(CreateUserRequest $request)
     {
         $input = $request->all();
-        $user = $this->userRepository->create($input);
+        // $user = $this->userRepository->create($input);
+
+        User::create([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'password' => Hash::make($request['password']),
+        ]);
+
         Flash::success('User saved successfully.');
         return redirect(route('users.index'));
     }
@@ -100,7 +109,11 @@ class UserController extends AppBaseController
             return redirect(route('users.index'));
         }
 
-        $user = $this->userRepository->update($request->all(), $id);
+//        $user = $this->userRepository->update($request->all(), $id);
+        $user->name = $request['name'];
+        $user->email = $request['email'];
+        $user->password = Hash::make($request['password']);
+        $user->save();
 
         Flash::success('User updated successfully.');
 

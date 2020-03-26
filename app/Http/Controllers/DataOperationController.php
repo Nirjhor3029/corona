@@ -25,6 +25,7 @@ class DataOperationController extends Controller
     {
         $data = Data::all();
         $service_types = Service_type::all();
+
         $default_status = Orderstatus::where('status_name','pending')->first();
 //        return $default_status;
         $i=0;
@@ -35,7 +36,11 @@ class DataOperationController extends Controller
 //            }
 //            return $service_type;
             $data = Data::where('service_type',$service_type->service_name)->get();
-            $suppliers= Supplier::where('service_type_id',$service_type->id)->orderBy('priority','asc')->get();
+            $suppliers= Supplier::where('service_type_id',$service_type->id)
+                ->whereNull('deleted_at')
+                ->orderBy('priority','asc')
+                ->get();
+//            return $suppliers;
 //            return count($suppliers);
 //            return $data;
             $count_supplier = 0;

@@ -25,7 +25,8 @@ Auth::routes();
 // User
 Route::prefix('supplier')->name('supplier.')->middleware(['auth'])->group(function () {
     
-    Route::get('dashboard', 'supplierDashboardController@showDashboard')->name('dashboard');
+    Route::get('settings', 'supplierDashboardController@showDashboard')->name('dashboard');
+    Route::get('dashboard', 'supplierDashboardController@showDashboard2')->name('dashboard2');
     Route::post('supplier-update-own/{id}', 'supplierDashboardController@updateown')->name('update_own');
 
     Route::get('orders', 'supplierDashboardController@supplierOrders')->name('orders');

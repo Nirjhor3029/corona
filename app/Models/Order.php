@@ -88,7 +88,7 @@ class Order extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
-    public function serviceType()
+    public function service_type()
     {
         return $this->belongsTo(\App\Models\Service_type::class, 'service_type_id');
     }
@@ -96,7 +96,7 @@ class Order extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
-    public function supllier()
+    public function supplier()
     {
         return $this->belongsTo(\App\Models\Supplier::class, 'supllier_id');
     }

@@ -3,23 +3,23 @@
         <thead>
             <tr>
                 <th>Name</th>
-        <th>Email</th>
-        <th>Email Verified At</th>
-        <th>Password</th>
-        <th>Role</th>
-        <th>Remember Token</th>
+                <th>Email</th>
+                {{-- <th>Email Verified At</th> --}}
+                {{-- <th>Password</th> --}}
+                <th>Role</th>
+                {{-- <th>Remember Token</th> --}}
                 <th colspan="3">Action</th>
             </tr>
         </thead>
         <tbody>
         @foreach($users as $user)
-            <tr>
+            <tr class="{{ ($user->role == '0') ? '': 'bg_green' }}">
                 <td>{{ $user->name }}</td>
-            <td>{{ $user->email }}</td>
-            <td>{{ $user->email_verified_at }}</td>
-            <td>{{ $user->password }}</td>
-            <td>{{ $user->role }}</td>
-            <td>{{ $user->remember_token }}</td>
+                <td>{{ $user->email }}</td>
+                {{-- <td>{{ $user->email_verified_at }}</td> --}}
+                {{-- <td>{{ $user->password }}</td> --}}
+                <td>{{ ($user->role == '0') ? "Supplier":"Admin" }}</td>
+                {{-- <td>{{ $user->remember_token }}</td> --}}
                 <td>
                     {!! Form::open(['route' => ['users.destroy', $user->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

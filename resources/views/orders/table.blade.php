@@ -5,25 +5,27 @@
                 {{-- <th>Name</th> --}}
                 <th>Mobile</th>
                 <th>Service Type </th>
-                <th>Supllier </th>
-                <th>Orderstatus </th>
+                <th>supplier</th>
+                <th>Status </th>
                 <th>Remarks</th>
                 <th>Amount</th>
-                <th>Date Time</th>
+                <th>Update Time</th>
                 <th >Action</th>
             </tr>
         </thead>
         <tbody>
         @foreach($orders as $order)
+        
             <tr>
                 {{-- <td>{{ $order->name }}</td> --}}
                 <td>{{ $order->mobile }}</td>
-                <td>{{ $order->serviceType->service_name }}</td>
-                <td>{{ $order->supllier->name }}</td>
+                <td>{{ $order->service_type->service_name }}</td>
+                <td>{{ $order->supplier['name'] }}</td>
+                {{-- <td>{{ $order->supplier->name }}</td> --}}
                 <td>{{ $order->orderstatus->status_name }}</td>
                 <td>{{ $order->remarks }}</td>
                 <td>{{ $order->amount }}</td>
-                <td>{{ $order->date_time }}</td>
+                <td>{{ $order->updated_at }}</td>
                 <td>
                     {!! Form::open(['route' => ['orders.destroy', $order->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

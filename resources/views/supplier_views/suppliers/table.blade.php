@@ -1,16 +1,16 @@
 <div class="table-responsive">
-    <table class="table" id="orders-table">
+    <table class="table" id="supplier_view_table">
         <thead>
             <tr>
                 {{-- <th>Name</th> --}}
                 <th>Mobile</th>
-                <th>Service Type Id</th>
+                {{-- <th>Service Type</th> --}}
                 {{-- <th>Supllier Id</th> --}}
-                <th>Orderstatus Id</th>
+                <th>Status</th>
                 <th>Remarks</th>
                 <th>Amount</th>
-                <th>Date Time</th>
-                <th colspan="3">Action</th>
+                <th>Update Time</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -22,7 +22,7 @@
             <tr>
                 {{-- <td>{{ $order->name }}</td> --}}
                 <td>{{ $order->mobile }}</td>
-                <td>{{ $order->serviceType->service_name }}</td>
+                {{-- <td>{{ $order->serviceType->service_name }}</td> --}}
                 {{-- <td>{{ $order->supllier->name }}</td> --}}
                 <td>
                     <select name="orderstatus_id" id="" onchange="checkStatus(this,'{{$order->id}}')">
@@ -35,12 +35,16 @@
                     </select>
                     {{-- {{ $order->orderstatus->status_name }} --}}
                 </td>
-                <td>{{ $order->remarks }}</td>
+                <td>
+                    <input type="text" value="{{ $order->remarks }}" name="order_remarks"  >
+
+                    {{-- {{ $order->remarks }} --}}
+                </td>
                 <td>
                     <input type="number" value="{{ $order->amount }}" name="order_amount"  disabled id="order_amount{{$order->id}}">
                     {{--{{ $order->amount }}--}}
                 </td>
-                <td>{{ $order->date_time }}</td>
+                <td>{{ $order->updated_at }}</td>
                 <td>
 
                     <input type="submit" value="Submit" class="btn btn-success" id="btn_submit{{$order->id}}" disabled >
@@ -62,6 +66,8 @@
             console.log(text.toLowerCase());
             
             if(text.toLowerCase() == "processing"){
+                order_amount.disabled = true;
+                order_amount.required = false;
                 btn.disabled = false;
             }else if(text.toLowerCase() == "delivered"){
                 order_amount.disabled = false;
@@ -69,13 +75,19 @@
                 btn.disabled = false;
             }
             else if(text.toLowerCase() == "pending"){
+                order_amount.disabled = true;
+                order_amount.required = false;
                 btn.disabled = false;
             }
             else if(text.toLowerCase() == "cancelled"){
+                order_amount.disabled = true;
+                order_amount.required = false;
                 btn.disabled = false;
             }else{
                 //Can't delivered
                 // alert('cant');
+                order_amount.disabled = true;
+                order_amount.required = false;
                 btn.disabled = false;
             }
             

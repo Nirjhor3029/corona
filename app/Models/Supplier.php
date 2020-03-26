@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class Supplier
  * @package App\Models
- * @version March 25, 2020, 1:35 am UTC
+ * @version March 26, 2020, 6:25 am UTC
  *
  * @property \App\Models\ServiceType serviceType
  * @property \App\Models\User user
@@ -71,9 +71,9 @@ class Supplier extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
-    public function serviceType()
+    public function service_type()
     {
-        return $this->belongsTo(\App\Models\ServiceType::class, 'service_type_id');
+        return $this->belongsTo(\App\Models\Service_type::class, 'service_type_id');
     }
 
     /**
