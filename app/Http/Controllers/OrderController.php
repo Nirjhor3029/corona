@@ -131,14 +131,11 @@ class OrderController extends AppBaseController
 
         if (empty($order)) {
             Flash::error('Order not found');
-
             return redirect(route('orders.index'));
         }
 
         $order = $this->orderRepository->update($request->all(), $id);
-
         Flash::success('Order updated successfully.');
-
         return redirect(route('orders.index'));
     }
 

@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\UserDataTable;
-use App\Http\Requests;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Repositories\UserRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
-use App\User;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
+use Flash;
 use Response;
 
 class UserController extends AppBaseController
@@ -26,12 +23,16 @@ class UserController extends AppBaseController
     /**
      * Display a listing of the User.
      *
-     * @param UserDataTable $userDataTable
+     * @param Request $request
+     *
      * @return Response
      */
-    public function index(UserDataTable $userDataTable)
+    public function index(Request $request)
     {
-        return $userDataTable->render('users.index');
+        $users = $this->userRepository->all();
+
+        return view('users.index')
+            ->with('users', $users);
     }
 
     /**
@@ -44,73 +45,47 @@ class UserController extends AppBaseController
         return view('users.create');
     }
 
-    /**
-     * Store a newly created User in storage.
-     *
-     * @param CreateUserRequest $request
-     *
-     * @return Response
-     */
+
     public function store(CreateUserRequest $request)
     {
         $input = $request->all();
-
-        // $user = $this->userRepository->create($input);
-        User::create([
-            'name' => $request['name'],
-            'email' => $request['email'],
-            'password' => Hash::make($request['password']),
-        ]);
-
+        $user = $this->userRepository->create($input);
         Flash::success('User saved successfully.');
-
         return redirect(route('users.index'));
     }
 
-    /**
-     * Display the specified User.
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
+
     public function show($id)
     {
         $user = $this->userRepository->find($id);
-
         if (empty($user)) {
             Flash::error('User not found');
-
             return redirect(route('users.index'));
         }
-
         return view('users.show')->with('user', $user);
     }
 
     /**
      * Show the form for editing the specified User.
      *
-     * @param  int $id
+     * @param int $id
      *
      * @return Response
      */
     public function edit($id)
     {
         $user = $this->userRepository->find($id);
-
         if (empty($user)) {
             Flash::error('User not found');
-
             return redirect(route('users.index'));
         }
-
         return view('users.edit')->with('user', $user);
     }
 
     /**
      * Update the specified User in storage.
      *
-     * @param  int              $id
+     * @param int $id
      * @param UpdateUserRequest $request
      *
      * @return Response
@@ -135,7 +110,9 @@ class UserController extends AppBaseController
     /**
      * Remove the specified User from storage.
      *
-     * @param  int $id
+     * @param int $id
+     *
+     * @throws \Exception
      *
      * @return Response
      */

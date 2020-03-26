@@ -84,6 +84,18 @@
         "inView": true
     },
     {
+        "name": "deleted_at",
+        "dbType": "datetime:nullable",
+        "htmlType": "date",
+        "validations": null,
+        "searchable": false,
+        "fillable": false,
+        "primary": false,
+        "inForm": false,
+        "inIndex": false,
+        "inView": false
+    },
+    {
         "name": "created_at",
         "dbType": "datetime:nullable",
         "htmlType": "date",
