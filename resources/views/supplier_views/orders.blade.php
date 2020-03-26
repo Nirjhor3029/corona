@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title',config('app.dev_com')."-Supplier orders")
 
 @section('content')
     <section class="content-header">

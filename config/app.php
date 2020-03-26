@@ -15,6 +15,8 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    "dev_com" => "Ekshop",
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
