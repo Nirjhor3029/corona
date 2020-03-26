@@ -1,5 +1,5 @@
 <div class="table-responsive">
-    <table class="table" id="supplier_view_table">
+    <table class="table" id="supplierview_table">
         <thead>
             <tr>
                 {{-- <th>Name</th> --}}
@@ -15,10 +15,7 @@
         </thead>
         <tbody>
         @foreach($orders as $order)
-        {!! Form::model($order, ['route' => ['supplier.update_status', $order->id], 'method' => 'post']) !!}
-        
-
-        
+        {!! Form::open(['route' => ['supplier.update_status', $order->id], 'method' => 'post']) !!}
             <tr>
                 {{-- <td>{{ $order->name }}</td> --}}
                 <td>{{ $order->mobile }}</td>
