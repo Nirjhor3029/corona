@@ -33,13 +33,17 @@ class OrderController extends AppBaseController
      */
     public function index(Request $request)
     {
+        $service_types = Service_type::all();
+        $suppliers = Supplier::whereNull('deleted_at')->get();
+        $order_statuses = Orderstatus::all();
+
         $orders = Order::with('orderstatus')
             ->with('service_type','service_type','supplier')
             ->orderBy('updated_at', 'DESC')
             ->get();
 //        return $orders[0]->supplier->name;
 
-        return view('orders.index')
+        return view('orders.index',compact('service_types','suppliers','order_statuses'))
             ->with('orders', $orders);
     }
 
@@ -50,7 +54,13 @@ class OrderController extends AppBaseController
      */
     public function create()
     {
-        return view('orders.create');
+        $service_types = Service_type::all();
+        $suppliers = Supplier::whereNull('deleted_at')->get();
+        $order_statuses = Orderstatus::all();
+        
+        
+
+        return view('orders.create',compact('service_types','suppliers','order_statuses'));
     }
 
     /**

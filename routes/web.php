@@ -30,6 +30,7 @@ Route::prefix('supplier')->name('supplier.')->middleware(['auth'])->group(functi
     Route::post('supplier-update-own/{id}', 'supplierDashboardController@updateown')->name('update_own');
 
     Route::get('orders', 'supplierDashboardController@supplierOrders')->name('orders');
+    Route::get('order-summery', 'supplierDashboardController@orderSummery')->name('order_summery');
 
     Route::post('update_status/{id}', 'supplierDashboardController@update_status')->name('update_status');
     
@@ -63,7 +64,12 @@ Route::middleware(['admin'])->group(function () {
 
 
 
-Auth::routes(['verify' => true]);
+Auth::routes(
+    [
+        'verify' => true,
+        'register' => false,
+    ]
+);
 
 Route::get('/home', 'HomeController@index')->middleware('verified');
 

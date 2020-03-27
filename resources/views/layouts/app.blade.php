@@ -6,6 +6,29 @@
 
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 
+
+
+
+    {{-- Favicon --}}
+    <link rel="apple-touch-icon" sizes="57x57" href="{{asset('images/favicon/')}}/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="{{asset('images/favicon/')}}/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{asset('images/favicon/')}}/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{asset('images/favicon/')}}/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{asset('images/favicon/')}}/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{asset('images/favicon/')}}/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{asset('images/favicon/')}}/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{asset('images/favicon/')}}/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{asset('images/favicon/')}}/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="{{asset('images/favicon/')}}/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{asset('images/favicon/')}}/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{asset('images/favicon/')}}/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('images/favicon/')}}/favicon-16x16.png">
+    <link rel="manifest" href="{{asset('images/favicon/')}}/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="{{asset('images/favicon/')}}/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    {{-- Favicon --}}
+
     <!-- Bootstrap 3.3.7 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css">
@@ -36,15 +59,15 @@
 @if (!Auth::guest())
     <div class="wrapper">
         <!-- Main Header -->
-        <header class="main-header">
+        <header class="main-header nav_bar_background" >
 
             <!-- Logo -->
-            <a href="#" class="logo">
-                <b>Corona</b>
+            <a href="{{ url('/home') }}" class="logo nav_bar_background" >
+                <img src="{{asset('/images/logo/ekshop.png')}}" class="logo_size_layout" alt="ekshop logo" srcset="">
             </a>
 
             <!-- Header Navbar -->
-            <nav class="navbar navbar-static-top" role="navigation">
+            <nav class="navbar navbar-static-top nav_bar_background" role="navigation">
                 <!-- Sidebar toggle button-->
                 <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
                     <span class="sr-only">Toggle navigation</span>
@@ -57,15 +80,15 @@
                             <!-- Menu Toggle Button -->
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <!-- The user image in the navbar-->
-                                <img src="http://infyom.com/images/logo/blue_logo_150x150.jpg"
+                                <img src="{{asset('/images/user.jpg')}}"
                                      class="user-image" alt="User Image"/>
                                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
                                 <span class="hidden-xs">{{ Auth::user()->name }}</span>
                             </a>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu nav_left_bar_background">
                                 <!-- The user image in the menu -->
-                                <li class="user-header">
-                                    <img src="http://infyom.com/images/logo/blue_logo_150x150.jpg"
+                                <li class="user-header nav_left_bar_background">
+                                    <img src="{{asset('/images/user.jpg')}}"
                                          class="img-circle" alt="User Image"/>
                                     <p>
                                         {{ Auth::user()->name }}
@@ -97,13 +120,13 @@
         <!-- Left side column. contains the logo and sidebar -->
         @include('layouts.sidebar')
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
+        <div class="content-wrapper content_wrapper_height">
             @yield('content')
         </div>
 
         <!-- Main Footer -->
-        <footer class="main-footer" style="max-height: 100px;text-align: center">
-            <strong>Copyright © {{date('Y')}} <a href="https://ekshop.gov.bd/">Ekshop</a>.</strong> All rights reserved.
+        <footer class="main-footer" style="max-height: 50px;text-align: center">
+            <strong>Copyright © {{date('Y')}} <a href="https://ekshop.gov.bd/">ekShop</a>.</strong> All rights reserved.
         </footer>
 
     </div>

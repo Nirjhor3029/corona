@@ -23,19 +23,19 @@
     <a href="{{ route('serviceTypes.index') }}"><i class="fa fa-edit"></i><span>Service Types</span></a>
 </li>
 
-<li class="{{ Request::is('orderstatuses*') ? 'active' : '' }}">
+{{-- <li class="{{ Request::is('orderstatuses*') ? 'active' : '' }}">
     <a href="{{ route('orderstatuses.index') }}"><i class="fa fa-edit"></i><span>Orderstatuses</span></a>
-</li>
+</li> --}}
 
-<li class="{{ Request::is('import*') ? 'active' : '' }}">
+{{-- <li class="{{ Request::is('import*') ? 'active' : '' }}">
     <a href="{{ route('import_csv') }}"><i class="fa fa-edit"></i><span>Import Data</span></a>
-</li>
+</li> --}}
 <li class="{{ Request::is('data*') ? 'active' : '' }}">
-    <a href="{{ route('data.index') }}"><i class="fa fa-edit"></i><span>Data</span></a>
+    <a href="{{ route('data.index') }}"><i class="fa fa-edit"></i><span>Imported Orders</span></a>
 </li>
 
 <li class="{{ Request::is('orders*') ? 'active' : '' }}">
-    <a href="{{ route('orders.index') }}"><i class="fa fa-edit"></i><span>Orders</span></a>
+    <a href="{{ route('orders.index') }}"><i class="fa fa-edit"></i><span>Distributed Orders</span></a>
 </li>
 
 
@@ -44,11 +44,15 @@
 <li class="{{ Request::is('dashboard*') ? 'active' : '' }}">
     <a href="{{ route('supplier.dashboard2') }}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
 </li>
-<li class="{{ Request::is('dashboard*') ? 'active' : '' }}">
-    <a href="{{ route('supplier.dashboard') }}"><i class="fa fa-gear"></i><span>Settings</span></a>
+
+<li class="{{ Request::is('order*') ? 'active' : '' }}">
+    <a href="{{ route('supplier.orders') }}"><i class="fa fa-edit "></i><span>Orders</span></a>
+</li>
+<li class="{{ Request::is('order-summery*') ? 'active' : '' }}">
+    <a href="{{ route('supplier.order_summery') }}"><i class="fa fa-edit "></i><span>Order summery</span></a>
 </li>
 <li class="{{ Request::is('dashboard*') ? 'active' : '' }}">
-    <a href="{{ route('supplier.orders') }}"><i class="fa fa-edit "></i><span>Orders</span></a>
+    <a href="{{ route('supplier.dashboard') }}"><i class="fa fa-gear"></i><span>Settings</span></a>
 </li>
 @endif
 

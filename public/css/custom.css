@@ -1,3 +1,39 @@
+
+.content_wrapper_height{
+    min-height: 90vh !important;
+}
+
 .bg_green{
     background-color: aqua;
+}
+.logo_size_login_page{
+    height: 100px;
+    width: 200px;
+}
+.logo_size_layout{
+    height: 40px;
+    width: 60px;
+}
+
+.nav_bar_background{
+    background-color: rgb(31, 42, 56) !important;
+}
+.nav_left_bar_background{
+    background-color: #2B3643 !important;
+}
+
+.pending{
+    background-color: transparent;    
+}
+.processing{
+    background-color: rgba(129, 143, 6, 0.486) ;
+}
+.delivered{
+    background-color: rgb(117, 214, 79);
+}
+.Cancelled{
+    background-color: rgb(252, 91, 42);
+}
+.cannot_delivered{
+    background-color: orange;
 }

@@ -15,6 +15,23 @@
         </thead>
         <tbody>
         @foreach($orders as $order)
+
+            <?php
+                $class_name = "";
+                if(strtolower($order->orderstatus->status_name) == "pending" )
+                {
+                    $class_name = "pending";
+                }elseif (strtolower($order->orderstatus->status_name) == "processing" ) {
+                    $class_name = "processing";
+                }
+                elseif (strtolower($order->orderstatus->status_name) == "delivered" ) {
+                    $class_name = "delivered";
+                }elseif (strtolower($order->orderstatus->status_name) == "cancelled" ) {
+                    $class_name = "Cancelled";
+                }else {
+                    $class_name = "cannot_delivered";
+                }
+            ?>
         
             <tr>
                 {{-- <td>{{ $order->name }}</td> --}}
@@ -22,10 +39,10 @@
                 <td>{{ $order->service_type->service_name }}</td>
                 <td>{{ $order->supplier['name'] }}</td>
                 {{-- <td>{{ $order->supplier->name }}</td> --}}
-                <td>{{ $order->orderstatus->status_name }}</td>
+                <td class="{{$class_name}}">{{ $order->orderstatus->status_name }}</td>
                 <td>{{ $order->remarks }}</td>
                 <td>{{ $order->amount }}</td>
-                <td>{{ $order->updated_at }}</td>
+                <td>{{ date_format($order->updated_at,"M d, Y")}}</td>
                 <td>
                     {!! Form::open(['route' => ['orders.destroy', $order->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

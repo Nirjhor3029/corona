@@ -4,7 +4,7 @@
             <tr>
                 {{-- <th>Name</th> --}}
                 <th>Mobile</th>
-                {{-- <th>Service Type</th> --}}
+                <th>Service Type</th>
                 {{-- <th>Supllier Id</th> --}}
                 <th>Status</th>
                 <th>Remarks</th>
@@ -15,14 +15,30 @@
         </thead>
         <tbody>
         @foreach($orders as $order)
+        <?php
+            $class_name = "";
+            if(strtolower($order->orderstatus->status_name) == "pending" )
+            {
+                $class_name = "pending";
+            }elseif (strtolower($order->orderstatus->status_name) == "processing" ) {
+                $class_name = "processing";
+            }
+            elseif (strtolower($order->orderstatus->status_name) == "delivered" ) {
+                $class_name = "delivered";
+            }elseif (strtolower($order->orderstatus->status_name) == "cancelled" ) {
+                $class_name = "Cancelled";
+            }else {
+                $class_name = "cannot_delivered";
+            }
+        ?>
         {!! Form::open(['route' => ['supplier.update_status', $order->id], 'method' => 'post']) !!}
             <tr>
                 {{-- <td>{{ $order->name }}</td> --}}
                 <td>{{ $order->mobile }}</td>
-                {{-- <td>{{ $order->serviceType->service_name }}</td> --}}
+                <td>{{ $order->service_type->service_name }}</td>
                 {{-- <td>{{ $order->supllier->name }}</td> --}}
                 <td>
-                    <select name="orderstatus_id" id="" onchange="checkStatus(this,'{{$order->id}}')">
+                    <select class="{{$class_name}}" name="orderstatus_id" id="" onchange="checkStatus(this,'{{$order->id}}')">
                         <option value="{{null}}" hidden>Select Status</option>
                         @foreach ($order_status as $single_order_status)
                             <option value="{{$single_order_status->id}}" {{($order->orderstatus->id == $single_order_status->id )? "selected" : ""}}>
@@ -41,7 +57,7 @@
                     <input type="number" value="{{ $order->amount }}" name="order_amount"  disabled id="order_amount{{$order->id}}">
                     {{--{{ $order->amount }}--}}
                 </td>
-                <td>{{ $order->updated_at }}</td>
+                <td>{{date_format($order->updated_at,"M d, Y")  }}</td>
                 <td>
 
                     <input type="submit" value="Submit" class="btn btn-success" id="btn_submit{{$order->id}}" disabled >
@@ -50,7 +66,12 @@
             {!! Form::close() !!}
         @endforeach
         </tbody>
+        
     </table>
+    
+    <div style="text-align: right;">  {{ $orders->links() }} </div>
+  
+    
 
     <script>
         function checkStatus(ev,orderId) {

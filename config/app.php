@@ -13,9 +13,9 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'ekShop'),
 
-    "dev_com" => "Ekshop",
+    "dev_com" => "ekShop",
 
     /*
     |--------------------------------------------------------------------------
