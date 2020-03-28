@@ -30,7 +30,9 @@ Route::prefix('supplier')->name('supplier.')->middleware(['auth'])->group(functi
     Route::post('supplier-update-own/{id}', 'supplierDashboardController@updateown')->name('update_own');
 
     Route::get('orders', 'supplierDashboardController@supplierOrders')->name('orders');
+    Route::get('orders/status/{statusId}', 'supplierDashboardController@supplierOrdersByStatus')->name('ordersByStatus');
     Route::get('order-summery', 'supplierDashboardController@orderSummery')->name('order_summery');
+    Route::get('order-summery/status/{statusId}', 'supplierDashboardController@orderSummeryByStatus')->name('order_summeryByStatus');
 
     Route::post('update_status/{id}', 'supplierDashboardController@update_status')->name('update_status');
     
@@ -50,6 +52,8 @@ Route::middleware(['admin'])->group(function () {
     Route::resource('orderstatuses', 'OrderstatusController');
     Route::resource('orders', 'OrderController');
     Route::resource('areas', 'AreaController');
+
+    Route::get('orders/status/{status_id}',"OrderController@ordersByStatus")->name('ordersByStatus');
 
 
     Route::get('export', 'MyController@export')->name('export');

@@ -40,7 +40,7 @@
                 <td>
                     <select class="{{$class_name}}" name="orderstatus_id" id="" onchange="checkStatus(this,'{{$order->id}}')">
                         <option value="{{null}}" hidden>Select Status</option>
-                        @foreach ($order_status as $single_order_status)
+                        @foreach ($order_statuses as $single_order_status)
                             <option value="{{$single_order_status->id}}" {{($order->orderstatus->id == $single_order_status->id )? "selected" : ""}}>
                                 {{$single_order_status->status_name}}
                             </option>

@@ -37,3 +37,12 @@
 .cannot_delivered{
     background-color: orange;
 }
+.font_capitalized{
+    text-transform: capitalize;
+}
+.tab_bottom{
+    margin-bottom: 5px !important;
+}
+.table_top{
+    margin-top: 10px;
+}

@@ -14,6 +14,15 @@
         @include('flash::message')
 
         <div class="clearfix"></div>
+        <ul class="nav nav-tabs">
+            @foreach ($order_statuses as $status)
+                <li class="{{($statusId == $status->id )? 'active' : ''}}"> {{--class="active"--}}
+                    {{-- <form action="{{route('ordersByStatus','pending')}}" method="get"> --}}
+                        <a class="font_capitalized"  href="{{route('ordersByStatus',$status->id)}}">{{$status->status_name}}</a>
+                    {{-- </form> --}}
+                </li>
+            @endforeach
+        </ul>
         <div class="box box-primary">
             <div class="box-body">
                     @include('orders.table')

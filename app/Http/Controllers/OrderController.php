@@ -36,6 +36,7 @@ class OrderController extends AppBaseController
         $service_types = Service_type::all();
         $suppliers = Supplier::whereNull('deleted_at')->get();
         $order_statuses = Orderstatus::all();
+        $statusId = 0;
 
         $orders = Order::with('orderstatus')
             ->with('service_type','service_type','supplier')
@@ -43,7 +44,49 @@ class OrderController extends AppBaseController
             ->get();
 //        return $orders[0]->supplier->name;
 
-        return view('orders.index',compact('service_types','suppliers','order_statuses'))
+        return view('orders.index',compact('service_types','suppliers','order_statuses','statusId'))
+            ->with('orders', $orders);
+    }
+
+    public function ordersByStatus($statusId) 
+    {
+        // switch ($status) {
+        //     case 'pending':
+        //         # code...
+        //         break;
+            
+        //     case 'processing':
+        //         # code...
+        //         break;
+            
+        //     case 'delivered':
+        //         # code...
+        //         break;
+            
+        //     case 'cannot_delivered':
+        //         # code...
+        //         break;
+            
+        //     case 'cancelled':
+        //         # code...
+        //         break;
+            
+        //     default:
+        //         # code...
+        //         break;
+        // }
+        $service_types = Service_type::all();
+        $suppliers = Supplier::whereNull('deleted_at')->get();
+        $order_statuses = Orderstatus::all();
+
+        $orders = Order::with('orderstatus')
+            ->with('service_type','service_type','supplier')
+            ->where('orderstatus_id',$statusId)
+            ->orderBy('updated_at', 'DESC')
+            ->get();
+        //return $orders[0]->supplier->name;
+
+        return view('orders.index',compact('service_types','suppliers','order_statuses','statusId'))
             ->with('orders', $orders);
     }
 

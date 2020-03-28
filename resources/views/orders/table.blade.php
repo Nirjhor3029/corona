@@ -1,5 +1,7 @@
+
 <div class="table-responsive">
-    <table class="table" id="orders-table">
+
+    <table class="table table_top" id="orders-table">
         <thead>
             <tr>
                 {{-- <th>Name</th> --}}

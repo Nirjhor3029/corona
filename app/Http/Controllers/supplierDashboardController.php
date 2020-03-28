@@ -84,12 +84,15 @@ class supplierDashboardController extends Controller
 
     public function supplierOrders()
     {
+
+        $statusId = 0; 
+
         $userId = Auth::user()->id;
-        $suppliers = Supplier::where('user_id',$userId)->get();
+        $suppliers = Supplier::whereNull('deleted_at')->where('user_id',$userId)->get();
         // return $suppliers;
         if (empty($suppliers)) {
             Flash::error('Suppliers not found');
-//            return redirect(route('suppliers.index'));
+            //return redirect(route('suppliers.index'));
             return Redirect::back();
         }
         $suppliers_id = [];
@@ -102,17 +105,50 @@ class supplierDashboardController extends Controller
                 ->with('orderstatus','service_type','supplier')
                 ->orderBy('updated_at', 'DESC')
                 ->paginate(15);
-//                ->get();
+                //->get();
 
         // return $orders;
 
-        $order_status = Orderstatus::all();
+        $order_statuses = Orderstatus::all();
 
-        return view('supplier_views.orders',compact('supplier','service_types','orders','order_status'));
+        return view('supplier_views.orders',compact('supplier','service_types','orders','order_statuses','statusId'));
+    }
+    public function supplierOrdersByStatus($statusId)
+    {
+
+        // $statusId = 0; 
+
+        $userId = Auth::user()->id;
+        $suppliers = Supplier::whereNull('deleted_at')->where('user_id',$userId)->get();
+        // return $suppliers;
+        if (empty($suppliers)) {
+            Flash::error('Suppliers not found');
+            //return redirect(route('suppliers.index'));
+            return Redirect::back();
+        }
+        $suppliers_id = [];
+        foreach ($suppliers as $key => $suppliers) {
+            $suppliers_id[$key] = $suppliers->id;
+        }
+        // return $suppliers_id;
+        $service_types = Service_type::all();
+        $orders = Order::whereIn('supllier_id',$suppliers_id)
+                ->where('orderstatus_id',$statusId)
+                ->with('orderstatus','service_type','supplier')
+                ->orderBy('updated_at', 'DESC')
+                ->paginate(15);
+                //->get();
+
+        // return $orders;
+
+        $order_statuses = Orderstatus::all();
+
+        return view('supplier_views.orders',compact('supplier','service_types','orders','order_statuses','statusId'));
     }
 
     public function orderSummery()
     {
+        $statusId = 0; 
         $userId = Auth::user()->id;
         $suppliers = Supplier::where('user_id',$userId)->get();
         if (empty($suppliers)) {
@@ -132,9 +168,36 @@ class supplierDashboardController extends Controller
 
         //  return $orders[0]->service_type->service_name;
 
-        $order_status = Orderstatus::all();
+        $order_statuses = Orderstatus::all();
 
-        return view('supplier_views.order_summery',compact('supplier','service_types','orders','order_status'));
+        return view('supplier_views.order_summery',compact('supplier','service_types','orders','statusId','order_statuses'));
+    }
+    public function orderSummeryByStatus($statusId)
+    {
+        // $statusId = 0; 
+        $userId = Auth::user()->id;
+        $suppliers = Supplier::where('user_id',$userId)->get();
+        if (empty($suppliers)) {
+            Flash::error('Suppliers not found');
+            //return redirect(route('suppliers.index'));
+            return Redirect::back();
+        }
+        $suppliers_id = [];
+        foreach ($suppliers as $key => $suppliers) {
+            $suppliers_id[$key] = $suppliers->id;
+        }
+        $service_types = Service_type::all();
+        $orders = Order::whereIn('supllier_id',$suppliers_id)
+                ->where('orderstatus_id',$statusId)
+                ->with('orderstatus','service_type','supplier')
+                ->orderBy('updated_at', 'DESC')
+                ->get();
+
+        //  return $orders[0]->service_type->service_name;
+
+        $order_statuses = Orderstatus::all();
+
+        return view('supplier_views.order_summery',compact('supplier','service_types','orders','statusId','order_statuses'));
     }
 
     public function update_status($orderId, Request $request)

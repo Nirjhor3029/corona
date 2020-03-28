@@ -45,13 +45,13 @@
     <a href="{{ route('supplier.dashboard2') }}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
 </li>
 
-<li class="{{ Request::is('order*') ? 'active' : '' }}">
+<li class="{{ Request::is('supplier/orders*') ? 'active' : '' }}">
     <a href="{{ route('supplier.orders') }}"><i class="fa fa-edit "></i><span>Orders</span></a>
 </li>
-<li class="{{ Request::is('order-summery*') ? 'active' : '' }}">
+<li class="{{ Request::is('supplier/order-summery*') ? 'active' : '' }}">
     <a href="{{ route('supplier.order_summery') }}"><i class="fa fa-edit "></i><span>Order summery</span></a>
 </li>
-<li class="{{ Request::is('dashboard*') ? 'active' : '' }}">
+<li class="{{ Request::is('supplier/settings*') ? 'active' : '' }}">
     <a href="{{ route('supplier.dashboard') }}"><i class="fa fa-gear"></i><span>Settings</span></a>
 </li>
 @endif
