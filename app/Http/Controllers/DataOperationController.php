@@ -45,7 +45,7 @@ class DataOperationController extends Controller
 //            return $data;
             $count_supplier = 0;
             foreach($data as $single_data){
-//                return $single_data;
+                //return $single_data;
 
                 if($count_supplier > count($suppliers)-1){
                     $count_supplier = 0;
@@ -53,21 +53,25 @@ class DataOperationController extends Controller
 
                 $capacity_count = Order::where('supllier_id',$suppliers[$count_supplier]->id)
                     ->whereDate('created_at', Carbon::today())->count();
-//                return $capacity_count;
+                //return $capacity_count;
                 if(  $capacity_count < $suppliers[$count_supplier]->capacity){
+
+                    $old_order = Order::where('mobile',$single_data->mobile)->whereDate('created_at', Carbon::today())->count();
+                    if($old_order > 0){
+                        continue;
+                    }
                     $order = new Order();
                     $order->name = $single_data->name;
                     $order->mobile = $single_data->mobile;
-
                     $order->service_type_id = $service_type->id;
                     $order->supllier_id = $suppliers[$count_supplier]->id;
                     $order->orderstatus_id = $default_status->id;
                     $order->save();
-
-                    $single_data->forceDelete();
-
+                    if($order->id){
+                        $single_data->forceDelete();
+                    }
+                    
                 }
-
                 $count_supplier++;
             }
             $i++;
