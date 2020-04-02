@@ -6,9 +6,11 @@ use App\DataTables\DataDataTable;
 use App\Http\Requests;
 use App\Http\Requests\CreateDataRequest;
 use App\Http\Requests\UpdateDataRequest;
+use App\Models\Data;
 use App\Repositories\DataRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Support\Facades\Redirect;
 use Response;
 
 class DataController extends AppBaseController
@@ -147,5 +149,14 @@ class DataController extends AppBaseController
         Flash::success('Data deleted successfully.');
 
         return redirect(route('data.index'));
+    }
+
+    public function deleteAll()
+    {
+        Data::truncate();
+        Flash::error('All Imported orders deleted successfully.');
+
+        return Redirect::back();
+        return "delete all";
     }
 }

@@ -12,6 +12,7 @@ use App\Repositories\OrderRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
+use Illuminate\Support\Facades\Redirect;
 use Response;
 
 class OrderController extends AppBaseController
@@ -36,10 +37,14 @@ class OrderController extends AppBaseController
         $service_types = Service_type::all();
         $suppliers = Supplier::whereNull('deleted_at')->get();
         $order_statuses = Orderstatus::all();
-        $statusId = 0;
+        
+
+        $order_satus = Orderstatus::where('status_name','pending')->first();
+        $statusId = $order_satus->id;
 
         $orders = Order::with('orderstatus')
             ->with('service_type','service_type','supplier')
+            ->where('orderstatus_id',$statusId)
             ->orderBy('updated_at', 'DESC')
             ->get();
 //        return $orders[0]->supplier->name;
@@ -50,40 +55,24 @@ class OrderController extends AppBaseController
 
     public function ordersByStatus($statusId) 
     {
-        // switch ($status) {
-        //     case 'pending':
-        //         # code...
-        //         break;
-            
-        //     case 'processing':
-        //         # code...
-        //         break;
-            
-        //     case 'delivered':
-        //         # code...
-        //         break;
-            
-        //     case 'cannot_delivered':
-        //         # code...
-        //         break;
-            
-        //     case 'cancelled':
-        //         # code...
-        //         break;
-            
-        //     default:
-        //         # code...
-        //         break;
-        // }
+        
         $service_types = Service_type::all();
         $suppliers = Supplier::whereNull('deleted_at')->get();
         $order_statuses = Orderstatus::all();
 
-        $orders = Order::with('orderstatus')
+        if($statusId == 0){
+            $orders = Order::with('orderstatus')
+            ->with('service_type','service_type','supplier')
+            ->orderBy('updated_at', 'DESC')
+            ->get();
+        }else{
+            $orders = Order::with('orderstatus')
             ->with('service_type','service_type','supplier')
             ->where('orderstatus_id',$statusId)
             ->orderBy('updated_at', 'DESC')
             ->get();
+        }
+        
         //return $orders[0]->supplier->name;
 
         return view('orders.index',compact('service_types','suppliers','order_statuses','statusId'))
@@ -230,5 +219,14 @@ class OrderController extends AppBaseController
         Flash::success('Order deleted successfully.');
 
         return redirect(route('orders.index'));
+    }
+
+    public function deleteAll()
+    {
+        Order::truncate();
+        Flash::error('All distributed Orders deleted successfully.');
+        return Redirect::back();
+
+        return "delete all";
     }
 }

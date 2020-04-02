@@ -54,6 +54,8 @@ Route::middleware(['admin'])->group(function () {
     Route::resource('areas', 'AreaController');
 
     Route::get('orders/status/{status_id}',"OrderController@ordersByStatus")->name('ordersByStatus');
+    Route::get('orders/order/deleteAll',"OrderController@deleteAll")->name('orders.deleteAll');
+    Route::get('datas/data/deleteAll',"DataController@deleteAll")->name('datas.deleteAll');
 
 
     Route::get('export', 'MyController@export')->name('export');
