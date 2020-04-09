@@ -22,6 +22,11 @@
                     {{-- </form> --}}
                 </li>
             @endforeach
+            <li class="{{($statusId == 0 )? 'active' : ''}}"> {{--class="active"--}}
+                {{-- <form action="{{route('ordersByStatus','pending')}}" method="get"> --}}
+                    <a class="font_capitalized"  href="{{route('supplier.order_summery')}}">All</a>
+                {{-- </form> --}}
+            </li>
         </ul>
         <div class="box box-primary">
             <div class="box-body">

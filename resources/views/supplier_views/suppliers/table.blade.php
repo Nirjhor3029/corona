@@ -8,6 +8,7 @@
                 {{-- <th>Supllier Id</th> --}}
                 <th>Status</th>
                 <th>Remarks</th>
+                <th>Area</th>
                 <th>Amount</th>
                 <th>Update Time</th>
                 <th>Action</th>
@@ -54,6 +55,32 @@
                     {{-- {{ $order->remarks }} --}}
                 </td>
                 <td>
+                    <select class="form-control js-example-basic-single " name="division" id="" onchange="enableDistricts(this,'{{$order}}')">
+                        <option value="{{null}}" hidden>Select Divisions</option>
+                        @foreach ($divisions as $division)
+                            <option value="{{$division->id}}">{{$division->name}}</option>
+                        @endforeach
+                    </select>
+                    <br>
+                    <select class="form-control js-example-basic-single display_none" name="district" id="district{{$order}}" disabled onchange="enableUpazilla(this,'{{$order}}')" >
+                        <option value="{{null}}" hidden>Select District</option>
+                        
+                    </select>
+                    <br>
+                    <select class="form-control js-example-basic-single display_none" name="upazilla" id="upazilla{{$order}}" disabled onchange="enableUnion(this,'{{$order}}')">
+                        <option value="{{null}}" hidden>Select Upazilla</option>
+                        
+                    </select>
+                    <br>
+                    <select class="form-control js-example-basic-single display_none" name="uninion" disabled id="union{{$order}}" >
+                        <option value="{{null}}" hidden>Select Uninion</option>
+                        
+                    </select>
+                    <br>
+                    {{-- <input type="number" value="{{ $order->amount }}" name="order_amount"  disabled id="order_amount{{$order->id}}"> --}}
+                    {{--{{ $order->amount }}--}}
+                </td>
+                <td>
                     <input type="number" value="{{ $order->amount }}" name="order_amount"  disabled id="order_amount{{$order->id}}">
                     {{--{{ $order->amount }}--}}
                 </td>
@@ -74,6 +101,9 @@
     
 
     <script>
+
+        
+
         function checkStatus(ev,orderId) {
 
             let btn = document.getElementById("btn_submit"+orderId);

@@ -18,7 +18,8 @@
                 <!-- Status -->
                 <a href="#">
                     <i class="fa fa-circle text-success"></i> 
-                    {{ (Auth::user()->role == 0)? "Supplier" : "Admin"}}
+                    {{ (Auth::user()->role != "admin")? "Supplier" : "Admin"}}
+                    {{-- {{Auth::user()->role}} --}}
                 </a>
             </div>
         </div>

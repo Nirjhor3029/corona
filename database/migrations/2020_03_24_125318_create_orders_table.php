@@ -27,6 +27,11 @@ class CreateOrdersTable extends Migration
             $table->unsignedBigInteger('orderstatus_id');
             $table->foreign('orderstatus_id')->references('id')->on('orderstatuses');
 
+            $table->integer('division_id')->nullable();
+            $table->integer('district_id')->nullable();
+            $table->integer('upazilla_id')->nullable();
+            $table->integer('union_id')->nullable();
+
             $table->string('remarks')->nullable();
             $table->double('amount')->default(0);
 

@@ -30,6 +30,9 @@ Route::prefix('supplier')->name('supplier.')->middleware(['auth'])->group(functi
     Route::post('supplier-update-own/{id}', 'supplierDashboardController@updateown')->name('update_own');
 
     Route::get('orders', 'supplierDashboardController@supplierOrders')->name('orders');
+    Route::get('orders/getSelectOption/{getByData}/{dataId}', 'supplierDashboardController@getSelectOption')->name('getSelectOption');
+
+
     Route::get('orders/status/{statusId}', 'supplierDashboardController@supplierOrdersByStatus')->name('ordersByStatus');
     Route::get('order-summery', 'supplierDashboardController@orderSummery')->name('order_summery');
     Route::get('order-summery/status/{statusId}', 'supplierDashboardController@orderSummeryByStatus')->name('order_summeryByStatus');
@@ -55,6 +58,7 @@ Route::middleware(['admin'])->group(function () {
 
     Route::get('orders/status/{status_id}',"OrderController@ordersByStatus")->name('ordersByStatus');
     Route::get('orders/order/deleteAll',"OrderController@deleteAll")->name('orders.deleteAll');
+    Route::get('orders/order/redistribute',"OrderController@redistribute")->name('orders.redistribute');
     Route::get('datas/data/deleteAll',"DataController@deleteAll")->name('datas.deleteAll');
 
 
@@ -83,3 +87,14 @@ Route::get('/home', 'HomeController@index')->middleware('verified');
 
 
 
+
+
+Route::resource('districts', 'DistrictController');
+
+Route::resource('thanas', 'ThanaController');
+
+Route::resource('unions', 'UnionController');
+
+Route::resource('divisions', 'DivisionsController');
+
+Route::resource('upazillas', 'UpazillaController');

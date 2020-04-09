@@ -10,6 +10,7 @@ use App\Models\Service_type;
 use App\Models\Supplier;
 use App\Repositories\OrderRepository;
 use App\Http\Controllers\AppBaseController;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Flash;
 use Illuminate\Support\Facades\Redirect;
@@ -34,6 +35,7 @@ class OrderController extends AppBaseController
      */
     public function index(Request $request)
     {
+//        return "ok";
         $service_types = Service_type::all();
         $suppliers = Supplier::whereNull('deleted_at')->get();
         $order_statuses = Orderstatus::all();
@@ -43,11 +45,11 @@ class OrderController extends AppBaseController
         $statusId = $order_satus->id;
 
         $orders = Order::with('orderstatus')
-            ->with('service_type','service_type','supplier')
+            ->with('service_type','service_type','supplier','division','district','upazilla','union')
             ->where('orderstatus_id',$statusId)
             ->orderBy('updated_at', 'DESC')
             ->get();
-//        return $orders[0]->supplier->name;
+//        return $orders[0]->division->name;
 
         return view('orders.index',compact('service_types','suppliers','order_statuses','statusId'))
             ->with('orders', $orders);
@@ -67,7 +69,7 @@ class OrderController extends AppBaseController
             ->get();
         }else{
             $orders = Order::with('orderstatus')
-            ->with('service_type','service_type','supplier')
+            ->with('service_type','service_type','supplier','division','district','upazilla','union')
             ->where('orderstatus_id',$statusId)
             ->orderBy('updated_at', 'DESC')
             ->get();
@@ -212,6 +214,7 @@ class OrderController extends AppBaseController
             Flash::error('Order not found');
 
             return redirect(route('orders.index'));
+
         }
 
         $this->orderRepository->delete($id);
@@ -228,5 +231,58 @@ class OrderController extends AppBaseController
         return Redirect::back();
 
         return "delete all";
+    }
+    public function redistribute()
+    {
+//        return "l";
+        $orderStatus = Orderstatus::where('status_name','can’t deliver')->first();
+
+        $orders = Order::where('orderstatus_id',$orderStatus->id)->get();
+
+        $service_types = Service_type::all();
+
+        $default_status = Orderstatus::where('status_name','pending')->first();
+//        return $service_types;
+        $i=0;
+        foreach($service_types as $service_type){
+
+//            return $service_type->id;
+
+            $data = Order::where('orderstatus_id',$orderStatus->id)
+                ->where('service_type_id',$service_type->id)
+                ->get();
+
+
+//            return $data;
+            $count_supplier = 0;
+            foreach($data as $single_data){
+
+                $suppliers= Supplier::where('service_type_id',$service_type->id)
+                    ->whereNull('deleted_at')
+                    ->whereNotIn('id',[$single_data->supllier_id])
+                    ->orderBy('priority','asc')
+                    ->get();
+//                return $suppliers;
+                foreach($suppliers as $supplier){
+                    $capacity_count = Order::where('supllier_id',$supplier->id)
+                        ->whereDate('created_at', Carbon::today())->count();
+//                    return $capacity_count;
+                    if($capacity_count < $supplier->capacity){
+                        $single_data->supllier_id = $supplier->id;
+                        $single_data->orderstatus_id = $default_status->id;
+                        $single_data->division_id = null;
+                        $single_data->district_id = null;
+                        $single_data->upazilla_id = null;
+                        $single_data->union_id = null;
+                        $single_data->save();
+
+                        break;
+                    }
+                }
+            }
+            $i++;
+        }
+        Flash::success('Order Redistributed successfully.');
+        return Redirect::back();
     }
 }

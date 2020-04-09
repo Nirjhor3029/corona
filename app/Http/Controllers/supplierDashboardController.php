@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\SupplierDataTable;
+use App\Models\District;
+use App\Models\Divisions;
 use App\Models\Order;
 use App\Models\Orderstatus;
 use App\Models\Service_type;
 use App\Models\Supplier;
+use App\Models\Union;
+use App\Models\Upazilla;
 use App\Models\User;
 use App\Repositories\SupplierRepository;
 use Illuminate\Http\Request;
@@ -81,9 +85,28 @@ class supplierDashboardController extends Controller
 
     //    Supplier
 
+    public function getSelectOption($getByData,$dataId){
+        $data_name = "Division";
+        if($getByData=="districts"){
+            $datas = District::where('division_id',$dataId)->get();
+            $data_name = "District";
+        }elseif($getByData=="upazilla"){
+            $datas = Upazilla::where('district_id',$dataId)->get();
+            $data_name = "Upazilla";
+        }elseif($getByData=="unions"){
+            $datas = Union::where('upazilla_id',$dataId)->get();
+            $data_name = "Union";
+        }else{
+            return "not";
+        }
+
+        return view('supplier_views.extra.select_option',compact('datas','data_name'));
+    }
 
     public function supplierOrders()
     {
+        $divisions = Divisions::all();
+//        return $divisions;
 
         $statusId = 0; 
 
@@ -111,12 +134,14 @@ class supplierDashboardController extends Controller
 
         $order_statuses = Orderstatus::all();
 
-        return view('supplier_views.orders',compact('supplier','service_types','orders','order_statuses','statusId'));
+        return view('supplier_views.orders',compact('supplier','service_types','orders','order_statuses','statusId','divisions'));
     }
     public function supplierOrdersByStatus($statusId)
     {
 
-        // $statusId = 0; 
+        // $statusId = 0;
+        $divisions = Divisions::all();
+
 
         $userId = Auth::user()->id;
         $suppliers = Supplier::whereNull('deleted_at')->where('user_id',$userId)->get();
@@ -143,7 +168,7 @@ class supplierDashboardController extends Controller
 
         $order_statuses = Orderstatus::all();
 
-        return view('supplier_views.orders',compact('supplier','service_types','orders','order_statuses','statusId'));
+        return view('supplier_views.orders',compact('supplier','service_types','orders','order_statuses','statusId','divisions'));
     }
 
     public function orderSummery()
@@ -162,7 +187,7 @@ class supplierDashboardController extends Controller
         }
         $service_types = Service_type::all();
         $orders = Order::whereIn('supllier_id',$suppliers_id)
-                ->with('orderstatus','service_type','supplier')
+                ->with('orderstatus','service_type','supplier','division','district','upazilla','union')
                 ->orderBy('updated_at', 'DESC')
                 ->get();
 
@@ -189,7 +214,7 @@ class supplierDashboardController extends Controller
         $service_types = Service_type::all();
         $orders = Order::whereIn('supllier_id',$suppliers_id)
                 ->where('orderstatus_id',$statusId)
-                ->with('orderstatus','service_type','supplier')
+                ->with('orderstatus','service_type','supplier','division','district','upazilla','union')
                 ->orderBy('updated_at', 'DESC')
                 ->get();
 
@@ -220,6 +245,20 @@ class supplierDashboardController extends Controller
         if(isset($request->order_remarks)){
             $order->remarks = $request->order_remarks;
         }
+
+        if(isset($request->division)){
+            $order->division_id = $request->division;
+        }
+        if(isset($request->district)){
+            $order->district_id = $request->district;
+        }
+        if(isset($request->upazilla)){
+            $order->upazilla_id = $request->upazilla;
+        }
+        if(isset($request->uninion)){
+            $order->union_id = $request->uninion;
+        }
+
         $order->save();
 
 //        return $order;

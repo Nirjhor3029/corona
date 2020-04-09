@@ -3,8 +3,13 @@
 
 @section('content')
     <section class="content-header">
-        <h1 class="pull-left">Distributed Orders</h1>
+        <h1 class="pull-left">
+            Distributed Orders
+
+        </h1>
         <h1 class="pull-right">
+            <a class="btn btn-success pull-left" style="margin-top: -10px;margin-right: 10px;margin-bottom: 5px" href="{{ route('orders.redistribute') }}" onclick="return confirm('Are you sure?')">Redistribute</a>
+
             <a class="btn btn-danger pull-left" style="margin-top: -10px;margin-right: 10px;margin-bottom: 5px" href="{{ route('orders.deleteAll') }}" onclick="return confirm('Are you sure?')">Delete All</a>
             <a class="btn btn-primary pull-right" style="margin-top: -10px;margin-bottom: 5px" href="{{ route('orders.create') }}">Add New</a>
         </h1>

@@ -10,6 +10,7 @@
                 <th>supplier</th>
                 <th>Status </th>
                 <th>Remarks</th>
+                <th>Area</th>
                 <th>Amount</th>
                 <th>Update Time</th>
                 <th >Action</th>
@@ -43,8 +44,18 @@
                 {{-- <td>{{ $order->supplier->name }}</td> --}}
                 <td class="{{$class_name}}">{{ $order->orderstatus->status_name }}</td>
                 <td>{{ $order->remarks }}</td>
+                <td>
+                    {{ ($order->division != null)? $order->division->name : "" }}
+                    <br>
+                    {{ ($order->district != null)? $order->district->name : "" }}
+                    <br>
+                    {{ ($order->upazilla != null)? $order->upazilla->name : "" }}
+                    <br>
+                    {{ ($order->union != null)? $order->union->name : "" }}
+                    
+                </td>
                 <td>{{ $order->amount }}</td>
-                <td>{{ date_format($order->updated_at,"M d, Y")}}</td>
+                <td>{{ date_format($order->updated_at,"M d, Y::h:i:s")}}</td>
                 <td>
                     {!! Form::open(['route' => ['orders.destroy', $order->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

@@ -100,4 +100,21 @@ class Order extends Model
     {
         return $this->belongsTo(\App\Models\Supplier::class, 'supllier_id');
     }
+
+    public function division()
+    {
+        return $this->belongsTo(Divisions::class, 'division_id');
+    }
+    public function district()
+    {
+        return $this->belongsTo(District::class, 'district_id');
+    }
+    public function upazilla()
+    {
+        return $this->belongsTo(Upazilla::class, 'upazilla_id');
+    }
+    public function union()
+    {
+        return $this->belongsTo(Union::class, 'union_id');
+    }
 }

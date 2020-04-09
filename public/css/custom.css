@@ -46,3 +46,18 @@
 .table_top{
     margin-top: 10px;
 }
+
+.display_none{
+    display: none;
+}
+
+
+
+#pageSubmenu{
+    background-color: rgb(64, 75, 88);
+
+}
+
+.pageSubmenu_item{
+    margin-left: 20px !important; 
+}
