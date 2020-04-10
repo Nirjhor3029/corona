@@ -35,7 +35,7 @@ class OrderController extends AppBaseController
      */
     public function index(Request $request)
     {
-//        return "ok";
+        // return "ok";
         $service_types = Service_type::all();
         $suppliers = Supplier::whereNull('deleted_at')->get();
         $order_statuses = Orderstatus::all();
@@ -49,7 +49,7 @@ class OrderController extends AppBaseController
             ->where('orderstatus_id',$statusId)
             ->orderBy('updated_at', 'DESC')
             ->get();
-//        return $orders[0]->division->name;
+        // return $orders[0]->division->name;
 
         return view('orders.index',compact('service_types','suppliers','order_statuses','statusId'))
             ->with('orders', $orders);
@@ -152,7 +152,7 @@ class OrderController extends AppBaseController
             ->with('service_type','orderstatus','supplier')
             ->first();
 
-//        return $order;
+        // return $order;
 
         if (empty($order)) {
             Flash::error('Order not found');
@@ -180,21 +180,23 @@ class OrderController extends AppBaseController
         }
 
         //return $request->supllier_id;
-//        return $order->supllier_id;
+        // return $order->supllier_id;
 
         if($order->supllier_id != $request->supllier_id ){
             $order_satus = Orderstatus::where('status_name','pending')->first();
-//            $request->orderstatus_id = $order_satus->id;
+            // $request->orderstatus_id = $order_satus->id;
             $request->merge(['orderstatus_id' =>$order_satus->id]);
 
-//            return $request;
-//            return $order_satus->id;
+            // return $request;
+            // return $order_satus->id;
         }
-//        return $order->supllier_id;
+        // return $order->supllier_id;
 
         $order = $this->orderRepository->update($request->all(), $id);
         Flash::success('Order updated successfully.');
-        return redirect(route('orders.index'));
+        // return redirect(route('orders.index'));
+        return Redirect::back();
+
     }
 
     /**
@@ -221,7 +223,9 @@ class OrderController extends AppBaseController
 
         Flash::success('Order deleted successfully.');
 
-        return redirect(route('orders.index'));
+        // return redirect(route('orders.index'));
+        return Redirect::back();
+
     }
 
     public function deleteAll()
@@ -234,7 +238,7 @@ class OrderController extends AppBaseController
     }
     public function redistribute()
     {
-//        return "l";
+        // return "l";
         $orderStatus = Orderstatus::where('status_name','can’t deliver')->first();
 
         $orders = Order::where('orderstatus_id',$orderStatus->id)->get();
@@ -242,18 +246,18 @@ class OrderController extends AppBaseController
         $service_types = Service_type::all();
 
         $default_status = Orderstatus::where('status_name','pending')->first();
-//        return $service_types;
+        // return $service_types;
         $i=0;
         foreach($service_types as $service_type){
 
-//            return $service_type->id;
+            // return $service_type->id;
 
             $data = Order::where('orderstatus_id',$orderStatus->id)
                 ->where('service_type_id',$service_type->id)
                 ->get();
 
 
-//            return $data;
+            // return $data;
             $count_supplier = 0;
             foreach($data as $single_data){
 
@@ -262,27 +266,34 @@ class OrderController extends AppBaseController
                     ->whereNotIn('id',[$single_data->supllier_id])
                     ->orderBy('priority','asc')
                     ->get();
-//                return $suppliers;
+                // return $suppliers;
+                $check = 0;
                 foreach($suppliers as $supplier){
                     $capacity_count = Order::where('supllier_id',$supplier->id)
                         ->whereDate('created_at', Carbon::today())->count();
-//                    return $capacity_count;
+                    // return $capacity_count;
                     if($capacity_count < $supplier->capacity){
                         $single_data->supllier_id = $supplier->id;
                         $single_data->orderstatus_id = $default_status->id;
-                        $single_data->division_id = null;
-                        $single_data->district_id = null;
-                        $single_data->upazilla_id = null;
-                        $single_data->union_id = null;
+                        // $single_data->division_id = null;
+                        // $single_data->district_id = null;
+                        // $single_data->upazilla_id = null;
+                        // $single_data->union_id = null;
                         $single_data->save();
-
+                        Flash::success('Order Redistributed successfully.');
+                        $check = 1;
                         break;
+                    }
+                    if(!$check){
+                        Flash::error('Capacity full !.');
                     }
                 }
             }
             $i++;
         }
-        Flash::success('Order Redistributed successfully.');
+
+        
+
         return Redirect::back();
     }
 }

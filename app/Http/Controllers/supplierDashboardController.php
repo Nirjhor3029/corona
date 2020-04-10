@@ -125,7 +125,7 @@ class supplierDashboardController extends Controller
         // return $suppliers_id;
         $service_types = Service_type::all();
         $orders = Order::whereIn('supllier_id',$suppliers_id)
-                ->with('orderstatus','service_type','supplier')
+                ->with('orderstatus','service_type','supplier','division','district','upazilla','union')
                 ->orderBy('updated_at', 'DESC')
                 ->paginate(15);
                 //->get();
@@ -159,7 +159,7 @@ class supplierDashboardController extends Controller
         $service_types = Service_type::all();
         $orders = Order::whereIn('supllier_id',$suppliers_id)
                 ->where('orderstatus_id',$statusId)
-                ->with('orderstatus','service_type','supplier')
+                ->with('orderstatus','service_type','supplier','division','district','upazilla','union')
                 ->orderBy('updated_at', 'DESC')
                 ->paginate(15);
                 //->get();
@@ -234,7 +234,6 @@ class supplierDashboardController extends Controller
 
         if (empty($order)) {
             Flash::error('Order not found');
-
             return Redirect::back();
         }
 

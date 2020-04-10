@@ -9,6 +9,7 @@
                 <th>Status</th>
                 <th>Remarks</th>
                 <th>Area</th>
+                <th>Selected Area</th>
                 <th>Amount</th>
                 <th>Update Time</th>
                 <th>Action</th>
@@ -79,6 +80,16 @@
                     <br>
                     {{-- <input type="number" value="{{ $order->amount }}" name="order_amount"  disabled id="order_amount{{$order->id}}"> --}}
                     {{--{{ $order->amount }}--}}
+                </td>
+                <td>
+                    {{ ($order->division != null)? $order->division->name : "" }}
+                    <br>
+                    {{ ($order->district != null)? $order->district->name : "" }}
+                    <br>
+                    {{ ($order->upazilla != null)? $order->upazilla->name : "" }}
+                    <br>
+                    {{ ($order->union != null)? $order->union->name : "" }}
+                    
                 </td>
                 <td>
                     <input type="number" value="{{ $order->amount }}" name="order_amount"  disabled id="order_amount{{$order->id}}">
